@@ -1,17 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
-  View, Image, StyleSheet, LayoutAnimation, Pressable,
-} from 'react-native';
+  View,
+  Image,
+  StyleSheet,
+  LayoutAnimation,
+  Pressable,
+} from "react-native";
 import Animated, {
-  withTiming, interpolate, Extrapolate, withDelay,
-  useDerivedValue, useAnimatedStyle, useSharedValue,
-} from 'react-native-reanimated';
-import { useTheme, useFocusEffect, useNavigation } from '@react-navigation/native';
-import { SharedElement } from 'react-navigation-shared-element';
-import * as Haptics from 'expo-haptics';
+  withTiming,
+  interpolate,
+  Extrapolate,
+  withDelay,
+  useDerivedValue,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
+import {
+  useTheme,
+  useFocusEffect,
+  useNavigation,
+} from "@react-navigation/native";
+import { SharedElement } from "react-navigation-shared-element";
+import * as Haptics from "expo-haptics";
 
-import Text from './Text';
-import { setModal } from './StatusModal';
+import Text from "./Text";
+import { setModal } from "./StatusModal";
 
 // single book component
 function Book({ book, scrollX, index }) {
@@ -19,7 +32,9 @@ function Book({ book, scrollX, index }) {
   const { margin, normalize } = useTheme();
   const BOOKW = normalize(120, 150);
   const BOOKH = BOOKW * 1.5;
-  const position = useDerivedValue(() => (index + 0.00001) * (BOOKW + margin) - scrollX.value);
+  const position = useDerivedValue(
+    () => (index + 0.00001) * (BOOKW + margin) - scrollX.value
+  );
   const inputRange = [-BOOKW, 0, BOOKW, BOOKW * 3];
   const loaded = useSharedValue(0);
   const opacity = useSharedValue(1);
@@ -28,7 +43,7 @@ function Book({ book, scrollX, index }) {
   const bookDetails = () => {
     Haptics.selectionAsync();
     opacity.value = withDelay(300, withTiming(0));
-    navigation.push('BookDetails', { book });
+    navigation.push("BookDetails", { book });
   };
 
   // change book status
@@ -47,7 +62,7 @@ function Book({ book, scrollX, index }) {
   useFocusEffect(
     React.useCallback(() => {
       opacity.value = withTiming(1);
-    }, []),
+    }, [])
   );
 
   // animated styles
@@ -56,12 +71,31 @@ function Book({ book, scrollX, index }) {
       opacity: opacity.value,
       transform: [
         { perspective: 800 },
-        { scale: interpolate(position.value, inputRange, [0.9, 1, 1, 1], Extrapolate.CLAMP) },
-        { rotateY: `${interpolate(position.value, inputRange, [60, 0, 0, 0], Extrapolate.CLAMP)}deg` },
+        {
+          scale: interpolate(
+            position.value,
+            inputRange,
+            [0.9, 1, 1, 1],
+            Extrapolate.CLAMP
+          ),
+        },
+        {
+          rotateY: `${interpolate(
+            position.value,
+            inputRange,
+            [60, 0, 0, 0],
+            Extrapolate.CLAMP
+          )}deg`,
+        },
         {
           translateX: scrollX.value
-            ? interpolate(position.value, inputRange, [BOOKW / 3, 0, 0, 0], 'clamp')
-            : interpolate(loaded.value, [0, 1], [index * BOOKW, 0], 'clamp'),
+            ? interpolate(
+                position.value,
+                inputRange,
+                [BOOKW / 3, 0, 0, 0],
+                "clamp"
+              )
+            : interpolate(loaded.value, [0, 1], [index * BOOKW, 0], "clamp"),
         },
       ],
     })),
