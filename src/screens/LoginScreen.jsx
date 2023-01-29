@@ -97,7 +97,7 @@ export default function LoginScreen({ navigation }) {
   };
   const handleClick = () => {
     if (isRegistering) {
-      navigation.push("genrescreen");
+      navigation.navigate("genrescreen");
       return;
     }
     dispatch(userLogin(email, password));

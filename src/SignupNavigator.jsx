@@ -48,7 +48,7 @@ function RootNavigator() {
       screenOptions={{
         headerShown: false,
         cardOverlayEnabled: true,
-        cardStyle: { backgroundColor: "transparent" },
+        // cardStyle: { backgroundColor: "transparent" },
       }}
       detachInactiveScreens={false}
     >
