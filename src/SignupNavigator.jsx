@@ -47,7 +47,7 @@ function RootNavigator() {
       initialRouteName="signup"
       screenOptions={{
         headerShown: false,
-        cardOverlayEnabled: true,
+        cardOverlayEnabled: false,
         // cardStyle: { backgroundColor: "transparent" },
       }}
       detachInactiveScreens={false}

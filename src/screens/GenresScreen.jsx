@@ -23,6 +23,8 @@ import short from "../../assets/short.png";
 import study from "../../assets/study.png";
 import young from "../../assets/young.png";
 import { Ionicons } from "@expo/vector-icons";
+import { signup, userLogin } from "../store/actions";
+import { useDispatch } from "react-redux";
 
 const screenWidth = Dimensions.get("screen").width;
 const cardWidth = (screenWidth - 60) / 2;
@@ -112,6 +114,7 @@ const styles = StyleSheet.create({
 });
 
 const GenresScreen = () => {
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState([]);
 
   const handleCardPress = (id) => {
@@ -121,6 +124,9 @@ const GenresScreen = () => {
     } else {
       setSelected([...selected, id]);
     }
+  };
+  const handleNext = () => {
+    dispatch(signup());
   };
   return (
     <View style={styles.container}>
@@ -177,19 +183,21 @@ const GenresScreen = () => {
           keyExtractor={(item) => item.id.toString()}
         />
         {selected.length > 0 && (
-          <View
-            style={{
-              width: "100%",
-              height: 40,
-              padding: 5,
-              backgroundColor: "rgba(1,89,213,1)",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 10,
-            }}
-          >
-            <Text style={{ color: "white", fontWeight: "bold" }}>NEXT</Text>
-          </View>
+          <TouchableNativeFeedback onPress={() => { handleNext() }}>
+            <View
+              style={{
+                width: "100%",
+                height: 40,
+                padding: 5,
+                backgroundColor: "rgba(1,89,213,1)",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 10,
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "bold" }}>NEXT</Text>
+            </View>
+          </TouchableNativeFeedback>
         )}
       </View>
     </View>

@@ -95,13 +95,19 @@ export default function LoginScreen({ navigation }) {
       runOnJS(setIsRegistering)(true);
     }
   };
-  const handleClick = () => {
-    if (isRegistering) {
-      navigation.navigate("genrescreen");
-      return;
-    }
+  const handleLogin = () => {
     dispatch(userLogin(email, password));
-  };
+  }
+  const handleSignup = () => {
+    navigation.navigate("genrescreen");
+  }
+  // const handleClick = () => {
+  //   if (isRegistering) {
+  //     navigation.navigate("genrescreen");
+  //     return;
+  //   }
+
+  // };
 
   return (
     <Animated.ScrollView contentContainerStyle={styles.container}>
@@ -176,7 +182,7 @@ export default function LoginScreen({ navigation }) {
           <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
             <Pressable
               onPress={() => {
-                handleClick();
+                !isRegistering ? handleLogin(email, password) : handleSignup();
               }}
             >
               <Text style={styles.buttonText}>

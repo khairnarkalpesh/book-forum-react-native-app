@@ -244,18 +244,18 @@ function BookListScreen({ navigation }) {
       elevation: ios
         ? undefined
         : interpolate(
-            scrollY.value,
-            [HEADER - navbar, HEADER - navbar + 30],
-            [0, 10],
-            "clamp"
-          ),
+          scrollY.value,
+          [HEADER - navbar, HEADER - navbar + 30],
+          [0, 10],
+          "clamp"
+        ),
       shadowOpacity: ios
         ? interpolate(
-            scrollY.value,
-            [HEADER - navbar, HEADER - navbar + 30],
-            [0, 0.75],
-            "clamp"
-          )
+          scrollY.value,
+          [HEADER - navbar, HEADER - navbar + 30],
+          [0, 0.75],
+          "clamp"
+        )
         : undefined,
       transform: [
         {
