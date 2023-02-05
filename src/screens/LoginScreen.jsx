@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,8 +20,9 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../store/actions";
+import { login, register, clearErrors } from "../store/actions/userAction";
 
 const { width, height } = Dimensions.get("window");
 export default function LoginScreen({ navigation }) {
@@ -32,6 +33,46 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+
+  const { error, loading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
+
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  // const { name2, email2, password2 } = user;
+
+  const loginSubmit = (e) => {
+    console.log('Button clicked');
+    e.preventDefault();
+    dispatch(login(email, password));
+  };
+
+  const registerSubmit = (e) => {
+    e.preventDefault();
+
+    const myForm = new FormData();
+    myForm.set("name", name);
+    myForm.set("email", email);
+    myForm.set("password", password);
+
+    dispatch(register(myForm));
+  };
+
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+      dispatch(clearErrors());
+    }
+
+    if (isAuthenticated) {
+      console.log("Login Successful")
+    }
+  }, [dispatch, error, isAuthenticated]);
 
   const imageAnimatedStyle = useAnimatedStyle(() => {
     const interpolation = interpolate(
@@ -181,9 +222,7 @@ export default function LoginScreen({ navigation }) {
           </KeyboardAvoidingView>
           <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
             <Pressable
-              onPress={() => {
-                !isRegistering ? handleLogin(email, password) : handleSignup();
-              }}
+              onPress={loginSubmit}
             >
               <Text style={styles.buttonText}>
                 {isRegistering ? "Sign up" : "Log in"}
